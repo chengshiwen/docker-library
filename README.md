@@ -6,3 +6,4 @@ Custom Dockerfiles in Common.
 
 - alpine-java
 - ncftp
+- redis-cluster
