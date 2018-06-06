@@ -4,4 +4,5 @@ Custom Dockerfiles in Common.
 
 ### Dockerfile List
 
+- alpine-java
 - ncftp
