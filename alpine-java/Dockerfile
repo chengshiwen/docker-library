@@ -20,7 +20,7 @@ ARG GLIBC_REPO=https://github.com/sgerrand/alpine-pkg-glibc
 # Do all in one step
 RUN set -ex && \
     apk -U upgrade && \
-    apk add libstdc++ curl ca-certificates bash gettext java-cacerts && \
+    apk add libstdc++ curl ca-certificates bash gettext java-cacerts eudev && \
     for pkg in glibc-${GLIBC_VERSION} glibc-bin-${GLIBC_VERSION} glibc-i18n-${GLIBC_VERSION}; do curl -sSL ${GLIBC_REPO}/releases/download/${GLIBC_VERSION}/${pkg}.apk -o /tmp/${pkg}.apk; done && \
     apk add --allow-untrusted /tmp/*.apk && \
     rm -v /tmp/*.apk && \
