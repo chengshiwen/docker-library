@@ -1,4 +1,4 @@
-FROM debian:jessie-slim
+FROM debian:stretch-slim
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r redis && useradd -r -g redis redis
@@ -8,7 +8,7 @@ RUN groupadd -r redis && useradd -r -g redis redis
 ENV GOSU_VERSION 1.10
 RUN set -ex; \
     \
-    fetchDeps='ca-certificates wget'; \
+    fetchDeps='ca-certificates dirmngr gnupg wget'; \
     apt-get update; \
     apt-get install -y --no-install-recommends $fetchDeps; \
     rm -rf /var/lib/apt/lists/*; \
@@ -19,15 +19,16 @@ RUN set -ex; \
     export GNUPGHOME="$(mktemp -d)"; \
     gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
     gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
+    gpgconf --kill all; \
     rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc; \
     chmod +x /usr/local/bin/gosu; \
     gosu nobody true; \
     \
     apt-get purge -y --auto-remove $fetchDeps
 
-ENV REDIS_VERSION 4.0.9
-ENV REDIS_DOWNLOAD_URL http://download.redis.io/releases/redis-4.0.9.tar.gz
-ENV REDIS_DOWNLOAD_SHA df4f73bc318e2f9ffb2d169a922dec57ec7c73dd07bccf875695dbeecd5ec510
+ENV REDIS_VERSION 4.0.10
+ENV REDIS_DOWNLOAD_URL http://download.redis.io/releases/redis-4.0.10.tar.gz
+ENV REDIS_DOWNLOAD_SHA 1db67435a704f8d18aec9b9637b373c34aa233d65b6e174bdac4c1b161f38ca4
 
 # for redis-sentinel see: http://redis.io/topics/sentinel
 RUN set -ex; \
