@@ -1,8 +1,8 @@
-# Dockerfile Common
+# Docker Library
 
-Custom Dockerfiles in Common.
+Docker library in Common.
 
-### Dockerfile List
+### Docker library list
 
 - alpine-java
 - ncftp
