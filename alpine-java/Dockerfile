@@ -6,15 +6,15 @@ LABEL maintainer="Anastas Dancha <anapsix@random.io>"
 # Java Version and other ENV
 ENV JAVA_PACKAGE=jdk \
     JAVA_VERSION_MAJOR=8 \
-    JAVA_VERSION_MINOR=171 \
-    JAVA_VERSION_BUILD=11 \
+    JAVA_VERSION_MINOR=181 \
+    JAVA_VERSION_BUILD=13 \
     JAVA_HOME=/opt/jdk \
     PATH=${PATH}:/opt/jdk/bin \
     CLASSPATH=.:/opt/jdk/lib/dt.jar:/opt/jdk/lib/tools.jar \
     GLIBC_VERSION=2.27-r0 \
     LANG=C.UTF-8
 
-ARG JAVA_DOWNLOAD_DIGEST=512cd62ec5174c3487ac17c61aaa89e8
+ARG JAVA_DOWNLOAD_DIGEST=96a7b8442fe848ef90c96a2fad6ed6d1
 ARG GLIBC_REPO=https://github.com/sgerrand/alpine-pkg-glibc
 
 # Do all in one step
