@@ -6,6 +6,8 @@ NODES=6
 REPLICAS=1
 TIMEOUT=5000
 ENDPORT=$((PORT+NODES-1))
+TIMEZONE=/usr/share/zoneinfo/Asia/Shanghai
+HUB_DIR=/tmp/redis-cluster
 
 if [ "$1" == "start" ]; then
     if [ "$IP" == "127.0.0.1" ] || [ "$IP" == "localhost" ]; then
@@ -14,12 +16,15 @@ if [ "$1" == "start" ]; then
     fi
     for port in $(seq $PORT $ENDPORT); do
         echo "Starting redis-$port"
+        mkdir -p ${HUB_DIR}/redis-$port
         docker run \
             -d \
             --name redis-$port \
             --restart unless-stopped \
             -p $port:6379 \
             -p 1$port:16379 \
+            -v ${TIMEZONE}:/etc/localtime \
+            -v ${HUB_DIR}/redis-$port:/data \
             redis-cluster \
             redis-server \
             --appendonly yes \
