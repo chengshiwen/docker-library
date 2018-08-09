@@ -18,8 +18,10 @@ sed_key_value NUM_EXECUTORS ${NUM_EXECUTORS}
 sed_key_value EXECUTOR_MEMORY ${EXECUTOR_MEMORY}
 sed_key_value EXECUTOR_CORES ${EXECUTOR_CORES}
 sed_key_value YARN_QUEUE ${YARN_QUEUE}
-sed_key_value HDFS_DEFAULTFS ${HDFS_DEFAULTFS}
-sed_key_value HDFS_ANOMALY_JAR_PATH ${HDFS_ANOMALY_JAR_PATH}
-sed_key_value HDFS_ANOMALY_CONF_PATH ${HDFS_ANOMALY_CONF_PATH}
+
+sed_key_value CLASS_NAME ${CLASS_NAME}
+sed_key_value APP_NAME ${APP_NAME}
+sed_key_value APP_JAR ${APP_JAR}
+sed_key_value APP_ARGS ${APP_ARGS}
 
 cron -f $@

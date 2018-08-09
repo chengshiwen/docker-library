@@ -17,17 +17,19 @@ NUM_EXECUTORS=1
 EXECUTOR_MEMORY=1G
 EXECUTOR_CORES=1
 YARN_QUEUE=default
-HDFS_DEFAULTFS=localhost:9000
-HDFS_ANOMALY_JAR_PATH=/user/aiops/anomaly/core/anomaly.jar
-HDFS_ANOMALY_CONF_PATH=/user/aiops/anomaly/core/anomaly.properties
 
-STREAMING_STATE=$(${HADOOP_YARN_HOME}/bin/yarn application -list -appStates SUBMITTED,ACCEPTED,RUNNING | grep "AIOps-Anomaly-Streaming")
+CLASS_NAME=org.apache.spark.examples.streaming.NetworkWordCount
+APP_NAME=NetworkWordCount-Streaming
+APP_JAR=/aiops/opt/spark-2.2.2-bin-hadoop2.7/examples/jars/spark-examples_2.11-2.2.2.jar
+APP_ARGS="localhost 9999"
+
+STREAMING_STATE=$(${HADOOP_YARN_HOME}/bin/yarn application -list -appStates SUBMITTED,ACCEPTED,RUNNING | grep ${APP_NAME})
 STREAMING_RUNNING=$(echo "${STREAMING_STATE}" | grep RUNNING)
 APPLICATION_ID=$(echo "${STREAMING_STATE}" | grep -E "SUBMITTED|ACCEPTED|RUNNING" | awk '{print $1}')
 
 submit_streaming() {
     nohup ${SPARK_HOME}/bin/spark-submit \
-        --class com.bizseer.anomaly.entry.CLI \
+        --class ${CLASS_NAME} \
         --master yarn \
         --deploy-mode cluster \
         --driver-memory ${DRIVER_MEMORY} \
@@ -36,9 +38,8 @@ submit_streaming() {
         --executor-memory ${EXECUTOR_MEMORY} \
         --executor-cores ${EXECUTOR_CORES} \
         --queue ${YARN_QUEUE} \
-        --name "AIOps-Anomaly-Streaming" \
-        hdfs://${HDFS_DEFAULTFS}${HDFS_ANOMALY_JAR_PATH} stream \
-        -c hdfs://${HDFS_DEFAULTFS}${HDFS_ANOMALY_CONF_PATH} &> /dev/null &
+        --name ${APP_NAME} \
+        ${APP_JAR} ${APP_ARGS} &> /dev/null &
     echo "0" > ${STUCK_PATH}
     echo "$(date): submit new application, reset count to 0" > ${LOG_PATH}
 }
