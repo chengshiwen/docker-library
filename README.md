@@ -8,6 +8,7 @@ Docker library in Common.
 - kafka
 - ncftp
 - redis-cluster
+- streaming
 
 ### Build docker image
 
