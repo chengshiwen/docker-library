@@ -23,7 +23,7 @@ APP_NAME=NetworkWordCount-Streaming
 APP_JAR=/aiops/opt/spark-2.2.2-bin-hadoop2.7/examples/jars/spark-examples_2.11-2.2.2.jar
 APP_ARGS="localhost 9999"
 
-STREAMING_STATE=$(${HADOOP_YARN_HOME}/bin/yarn application -list -appStates SUBMITTED,ACCEPTED,RUNNING | grep ${APP_NAME})
+STREAMING_STATE=$(${HADOOP_YARN_HOME}/bin/yarn application -list -appStates SUBMITTED,ACCEPTED,RUNNING | grep "${APP_NAME}")
 STREAMING_RUNNING=$(echo "${STREAMING_STATE}" | grep RUNNING)
 APPLICATION_ID=$(echo "${STREAMING_STATE}" | grep -E "SUBMITTED|ACCEPTED|RUNNING" | awk '{print $1}')
 

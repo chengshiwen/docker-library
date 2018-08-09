@@ -2,7 +2,14 @@
 
 sed_key_value() {
     if [[ -n "$2" ]]; then
-        sed -i "s#$1=.*#$1=$2#" /usr/local/bin/streaming.sh
+        key=$1
+        shift
+        if [[ $# -gt 1 ]]; then
+            value="\"$*\""
+        else
+            value=$*
+        fi
+        sed -i "s#$key=.*#$key=$value#" /usr/local/bin/streaming.sh
     fi
 }
 
