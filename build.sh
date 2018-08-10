@@ -5,12 +5,13 @@ if [[ -z "$1" ]]; then
     exit 1
 fi
 
-BUILD_DIR=$(dirname $0)/$1
+LIBRARY=${1%%/*}
+BUILD_DIR=$(dirname $0)/${LIBRARY}
 
 if [[ ! -d ${BUILD_DIR} ]]; then
-    echo "library $1 not exist!"
+    echo "library ${LIBRARY} not exist!"
     exit 1
 fi
 
 cd ${BUILD_DIR}
-docker build -f Dockerfile -t $1 .
+docker build -f Dockerfile -t ${LIBRARY} .
