@@ -66,3 +66,5 @@ WORKDIR /data
 EXPOSE 2181 9092
 
 ENTRYPOINT ["entrypoint.sh"]
+
+CMD ["supervisord", "-n"]
