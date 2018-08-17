@@ -58,3 +58,5 @@ COPY entrypoint.sh streaming.sh /usr/local/bin/
 RUN echo "*/1 * * * * root /bin/bash /usr/local/bin/streaming.sh" >> /etc/crontab
 
 ENTRYPOINT ["entrypoint.sh"]
+
+CMD ["cron", "-f"]

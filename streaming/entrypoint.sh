@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ "${1#-}" != "$1" ]]; then
+    set -- cron -f "$@"
+fi
+
 sed_key_value() {
     if [[ -n "$2" ]]; then
         key=$1
@@ -31,4 +35,4 @@ sed_key_value APP_NAME ${APP_NAME}
 sed_key_value APP_JAR ${APP_JAR}
 sed_key_value APP_ARGS ${APP_ARGS}
 
-cron -f $@
+exec "$@"
