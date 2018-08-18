@@ -8,11 +8,14 @@ bind-addr = "0.0.0.0:9096"
 # Array of InfluxDB instances to use as backends for Relay
 # name: name of the backend, used for display purposes only.
 # location: full URL of the /write endpoint of the backend.
-# timeout: Go-parseable time duration. Fail writes if incomplete in this time.
+# timeout: timeout sets a per-backend timeout for write requests. (Default 10s)
+# buffer-size-mb: buffer failed writes up to maximum count. (Default 0, retry/buffering disabled)
+# max-batch-kb: maximum batch size in KB (Default 512)
+# max-delay-interval: the format used is the same seen in time.ParseDuration (Default 10s)
 # skip-tls-verification: skip verification for HTTPS location. WARNING: it's insecure. Don't use in production.
 output = [
-    { name="local1", location="http://127.0.0.1:8086/write", timeout="10s" },
-    { name="local2", location="http://127.0.0.1:7086/write", timeout="10s" },
+    { name="local1", location="http://127.0.0.1:8086/write", timeout="20s", buffer-size-mb=256, max-batch-kb=512, max-delay-interval="10s" },
+    { name="local2", location="http://127.0.0.1:7086/write", timeout="20s", buffer-size-mb=256, max-batch-kb=512, max-delay-interval="10s" },
 ]
 
 [[udp]]
