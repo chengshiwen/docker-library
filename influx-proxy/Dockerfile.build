@@ -1,0 +1,5 @@
+FROM golang:alpine3.7
+
+RUN apk add --no-cache git \
+ && go get -u github.com/chengshiwen/influx-proxy/service \
+ && mv $GOPATH/bin/service $GOPATH/bin/influx-proxy
