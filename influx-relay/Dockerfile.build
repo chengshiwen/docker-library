@@ -1,4 +1,5 @@
 FROM golang:alpine3.7
 
 RUN apk add --no-cache git \
- && go get -u github.com/vente-privee/influxdb-relay
+ && go get -u github.com/vente-privee/influxdb-relay \
+ && mv $GOPATH/bin/influxdb-relay $GOPATH/bin/influx-relay
