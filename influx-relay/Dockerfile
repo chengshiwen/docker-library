@@ -6,8 +6,8 @@ EXPOSE 9096
 
 COPY relay.toml /etc/
 
-COPY influxdb-relay entrypoint.sh /usr/local/bin/
+COPY influx-relay entrypoint.sh /usr/local/bin/
 
 ENTRYPOINT ["entrypoint.sh"]
 
-CMD ["influxdb-relay", "-config", "/etc/relay.toml"]
+CMD ["influx-relay", "-config", "/etc/relay.toml"]
