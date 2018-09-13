@@ -17,6 +17,7 @@ sed_key_value() {
     fi
 }
 
+sed_key_value HADOOP_HOME ${HADOOP_HOME}
 sed_key_value HADOOP_HDFS_HOME ${HADOOP_HDFS_HOME}
 sed_key_value HADOOP_YARN_HOME ${HADOOP_YARN_HOME}
 sed_key_value HADOOP_CONF_DIR ${HADOOP_CONF_DIR}

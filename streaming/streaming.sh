@@ -5,6 +5,7 @@ STUCK_PATH=/tmp/stuck.log
 LOG_PATH=/tmp/streaming.log
 
 export JAVA_HOME=/usr/java/latest
+export HADOOP_HOME=/aiops/opt/hadoop-2.7.6
 export HADOOP_HDFS_HOME=/aiops/opt/hadoop-2.7.6
 export HADOOP_YARN_HOME=/aiops/opt/hadoop-2.7.6
 export HADOOP_CONF_DIR=/aiops/opt/hadoop-2.7.6/etc/hadoop
