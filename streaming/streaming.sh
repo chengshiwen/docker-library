@@ -1,6 +1,7 @@
 #!/bin/bash
 
 RETRY_NUMBER=10
+STATE_PATH=/tmp/state.log
 STUCK_PATH=/tmp/stuck.log
 LOG_PATH=/tmp/streaming.log
 
@@ -24,7 +25,11 @@ APP_NAME=NetworkWordCount-Streaming
 APP_JAR=/aiops/opt/spark-2.2.2-bin-hadoop2.7/examples/jars/spark-examples_2.11-2.2.2.jar
 APP_ARGS="localhost 9999"
 
-STREAMING_STATE=$(${HADOOP_YARN_HOME}/bin/yarn application -list -appStates SUBMITTED,ACCEPTED,RUNNING | grep "${APP_NAME}")
+nohup ${HADOOP_YARN_HOME}/bin/yarn application -list -appStates SUBMITTED,ACCEPTED,RUNNING &> ${STATE_PATH} &
+sleep 20
+
+YARN_RETRY_COUNT=$(grep "Retrying" ${STATE_PATH} | wc -l)
+STREAMING_STATE=$(grep "${APP_NAME}" ${STATE_PATH})
 STREAMING_RUNNING=$(echo "${STREAMING_STATE}" | grep RUNNING)
 APPLICATION_ID=$(echo "${STREAMING_STATE}" | grep -E "SUBMITTED|ACCEPTED|RUNNING" | awk '{print $1}')
 
@@ -42,7 +47,7 @@ submit_streaming() {
         --name ${APP_NAME} \
         ${APP_JAR} ${APP_ARGS} &> /dev/null &
     echo "0" > ${STUCK_PATH}
-    echo "$(date): submit new application, reset count to 0" > ${LOG_PATH}
+    echo "$(date): submit new application, reset count to 0" >> ${LOG_PATH}
 }
 
 kill_streaming() {
@@ -53,6 +58,12 @@ kill_streaming() {
 
 if [[ "$1" == "stop" ]] && [[ -n ${APPLICATION_ID} ]]; then
     kill_streaming
+    exit 1
+fi
+
+if [[ ${YARN_RETRY_COUNT} -gt 8 ]]; then
+    echo "$(date): cannot get application list from yarn" >> ${LOG_PATH}
+    kill -9 `jps | grep ApplicationCLI | awk '{print $1}'`
     exit 1
 fi
 
@@ -73,4 +84,6 @@ elif [[ -z ${STREAMING_RUNNING} ]]; then
     else
         echo "1" > ${STUCK_PATH}
     fi
+else
+    echo "$(date): task ${APPLICATION_ID} is already running" >> ${LOG_PATH}
 fi
