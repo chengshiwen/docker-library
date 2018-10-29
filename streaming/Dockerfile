@@ -55,7 +55,8 @@ RUN apt-get update \
 
 COPY entrypoint.sh streaming.sh /usr/local/bin/
 
-RUN echo "*/1 * * * * root /bin/bash /usr/local/bin/streaming.sh" >> /etc/crontab
+RUN echo "*/1 * * * * root /bin/bash /usr/local/bin/streaming.sh" >> /etc/crontab \
+ && echo "0 0 * * 0 root rm -f /tmp/streaming.log" >> /etc/crontab
 
 ENTRYPOINT ["entrypoint.sh"]
 
