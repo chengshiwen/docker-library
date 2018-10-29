@@ -12,6 +12,7 @@ Docker library in Common.
 - ncftp
 - redis-cluster
 - streaming
+- web-proxy
 
 ### Build docker image
 
