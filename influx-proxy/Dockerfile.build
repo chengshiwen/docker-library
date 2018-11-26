@@ -1,5 +1,5 @@
 FROM golang:1.10-alpine3.7
 
 RUN apk add --no-cache git \
- && go get -u github.com/chengshiwen/influx-proxy/service \
+ && CGO_ENABLED=0 go get -a -ldflags '-s' github.com/chengshiwen/influx-proxy/service \
  && mv $GOPATH/bin/service $GOPATH/bin/influx-proxy

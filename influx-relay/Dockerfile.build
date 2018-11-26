@@ -1,5 +1,5 @@
 FROM golang:1.10-alpine3.7
 
 RUN apk add --no-cache git \
- && go get -u github.com/vente-privee/influxdb-relay \
+ && CGO_ENABLED=0 go get -a -ldflags '-s' github.com/vente-privee/influxdb-relay \
  && mv $GOPATH/bin/influxdb-relay $GOPATH/bin/influx-relay
